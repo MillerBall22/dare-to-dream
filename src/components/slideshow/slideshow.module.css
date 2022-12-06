@@ -1,0 +1,21 @@
+.container {
+    display: flex;
+    background-color: var(--white-color);
+    color: var(--white-color);
+    justify-content: space-evenly;
+    align-items: center;
+    height: 420px;
+}
+
+.photo{
+    height: 400px;
+}
+
+.sidephoto {
+    flex: 1;
+    height: 100%;
+    display: flex;
+    align-items: top;
+    justify-content: center;
+    color: var(--orange-color);
+}

@@ -1,0 +1,28 @@
+.container {
+    position: relative;
+}
+
+.input {
+    background: none;
+    background-color: var(--white-color);
+    color: var(--secondary-blue);
+    font-size: 16px;
+    padding: 10px 10px 10px 5px;
+    display: block;
+    width: 100%;
+    border: none;
+    border-radius: 0;
+    border-bottom: 1px solid var(--secondary-blue);
+    margin: 25px 0;
+    height: 250px;
+}
+
+.label {
+    color: var(--secondary-blue);
+    font-size: 18px;
+    font-weight: normal;
+    position: absolute;
+    pointer-events: none;
+    left: 5px;
+    transition: 300ms ease all;
+}

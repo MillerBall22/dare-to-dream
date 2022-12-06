@@ -1,0 +1,30 @@
+.container {
+    position: absolute;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: var(--white-color);
+    top: 235px;
+    right: 105px;
+    z-index: 5;
+}
+
+.title {
+    color: black;
+    margin-bottom: 10px;
+}
+
+.buttonContainer {
+    margin-bottom: 10px;
+}
+
+.navigationLink {
+    color: var(--secondary-blue);
+    font-size: 18px;
+    min-width: 100px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}

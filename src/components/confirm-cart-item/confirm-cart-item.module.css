@@ -1,0 +1,61 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    background-color: var(--primary-blue);
+    color: #ffffff;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.item {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+}
+
+.quantity {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.quantityIcons {
+    margin: 0 10px;
+    font-size: 25px;
+}
+
+.price {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.total {
+    width: 25%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.removeButton {
+    background-color: var(--third-blue);
+    color: var(--secondary-blue);
+    margin-top: 5px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 150px;
+    font-weight: bold;
+}
+
+.removeButton:hover {
+    background-color: #ffffff;
+    color: var(--primary-blue);
+}

@@ -1,0 +1,57 @@
+.container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 20px 2rem;
+    background-color: var(--white-color);
+    color: var(--primary-blue);
+}
+
+.title {
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%
+}
+
+.confirmCartHeader {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+    width: 100%
+}
+
+.headerItem {
+    width: 25%
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+    width: 100%
+}
+
+.emptyMessage {
+    text-align: center;
+    margin: 100px;
+}
+
+.confirmCartFooter {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    flex-direction: row;
+    width: 100%;
+    margin-bottom: 25px;
+}
+
+.footerItem {
+    width: 25%
+}

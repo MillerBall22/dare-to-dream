@@ -1,0 +1,36 @@
+.container {
+    position: absolute;
+    width: 240px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid black;
+    background-color: var(--white-color);
+    top: 235px;
+    right: 105px;
+    z-index: 5;
+}
+
+.cartItems {
+    display: flex;
+    flex-direction: column;
+}
+
+.emptyMessage {
+    margin-bottom: 240px;
+    color: black;
+}
+
+.title {
+    color: black;
+    margin-bottom: 10px;
+}
+
+.buttonContainer {
+    margin-bottom: 10px;
+}
+
+.errorContainer {
+    color: black;
+    margin-bottom: 20px;
+}
