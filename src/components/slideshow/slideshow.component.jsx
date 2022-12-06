@@ -1,7 +1,5 @@
 import styles from './slideshow.module.css';
 import Logo from '../../assets/dare-to-dream.png'
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from 'react-icons/fa';
-import {TbArrowBarLeft, TbArrowBarRight} from 'react-icons/tb'
 
 const Slideshow = () => {
     return (

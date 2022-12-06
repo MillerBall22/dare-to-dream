@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react"
-import { createUser, getUser, updateUser } from "../../utils/airtable/users"
+import { useState } from "react"
+import { getUser} from "../../utils/airtable/users"
 
 export default function Test() {
   const [email, setEmail] = useState("");
