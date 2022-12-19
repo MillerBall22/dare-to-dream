@@ -1,6 +1,6 @@
 .container {
     background-color: var(--primary-blue);
-    color: #ffffff;
+    color: var(--white-color);
     padding: 10px;
     border-radius: 5px;
     cursor: pointer;
@@ -21,7 +21,7 @@
 
 .removeButton {
     background-color: var(--third-blue);
-    color: var(--secondary-blue);
+    color: var(--white-color);
     margin-top: 5px;
     padding: 10px;
     border: none;
@@ -33,6 +33,6 @@
 }
 
 .removeButton:hover {
-    background-color: #ffffff;
+    background-color: var(--white-color);
     color: var(--primary-blue);
 }

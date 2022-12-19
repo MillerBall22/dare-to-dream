@@ -1,38 +1,50 @@
 var Airtable = require('airtable');
 var base = new Airtable({apiKey: process.env.REACT_APP_AIRTABLE_API_KEY}).base('appQkl29m9nQRQumu');
 
-export const getUser = async () => {
+export const getUser = async (email) => {
   return new Promise((resolve, reject) => {
     base('Users').select({
-      filterByFormula: '{email} = "miller.keaton22@gmail."',
-      }).eachPage(function page(records, fetchNextPage) {
-      records.forEach(async function(record) {
-      console.log(record.id);
+      filterByFormula: `{Email} = "${email}"`,
+      }).eachPage(function page(records) {
+        if (records.length === 0) {
+          createUser(email);
+          resolve(getUser(email))
+        }
+      records.every(async function(record) {
+      console.log("ran");
       const result = {
         id: record.id,
         fields: record.fields
       }
-      resolve(result);
+      console.log(result)
+        resolve(result);
+        return true
       }); 
-      fetchNextPage();
-      }, function done(error) {
-        console.log(error)
-        reject(error);
       });
-  })  ;
+  });
 }
 
-const isValueInField = async (field, value) => 
-  { const records = base('Users').selectRecords().filter
-    (record => { return record.field === value }); 
-    if (records.length > 0) return true; 
-    else return false; }
+export const getUserById = async (id) => {
+  return new Promise((resolve, reject) => {
+    base('Users').find(id, function (err, record) {
+      if (err) { 
+        console.error(err); 
+        return; 
+      }
+      const results = {
+        id: record.id,
+        fields: record.fields
+      }
+      resolve(results)
+    });
+  });
+}
 
 export const createUser = async (userEmail) => {
     base('Users').create([
       {
         "fields": {
-            email: userEmail
+            Email: userEmail
         }
       }
     ], function(err, records) {

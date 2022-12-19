@@ -5,7 +5,7 @@ import CartItem from '../cart-item/cart-item.component';
 
 import styles from './cart-dropdown.module.css';
 
-import {StoreContext } from "../../store/store-context";
+import {StoreContext} from "../../store/store-context";
 import { useNavigate } from 'react-router-dom';
 
 const CartDropdown = () => {

@@ -10,7 +10,7 @@
     padding: 10px 10px 10px 5px;
     display: block;
     width: 100%;
-    border: none;
+    border: var(--secondary-blue) 1px solid;
     border-radius: 0;
     border-bottom: 1px solid var(--secondary-blue);
     margin: 25px 0;

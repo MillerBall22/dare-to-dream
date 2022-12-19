@@ -18,3 +18,17 @@
     justify-content: space-evenly;
     flex: 1;
 }
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 1;
+}
+
+.emailContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    flex: 1;
+}

@@ -5,9 +5,9 @@ body {
     font-family: IBMPlexSans, -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
     height: 100%;
     color: var(--white-color);
-    background-image: linear-gradient(var(--secondary-blue), var(--third-blue), var(--third-blue), var(--secondary-blue));
+    background-color: var(--white-color);
     background-size: cover;
-    background-attachment: fixed
+    background-attachment: fixed;
 }
 
 a {
@@ -54,4 +54,7 @@ pre {
     background-color: var(--primary-blue);
     padding: 10px 20px;
     text-align: center;
+    position: relative;
+    bottom: 0;
+    width:100%
 }
