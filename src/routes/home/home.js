@@ -58,7 +58,7 @@ export default function Home() {
           <TicketCard className='ticket-card' ticketId='fiftyFiftyTickets' ticketTitle='50/50 Tickets' price={20} imageUrl='/static/3 Tickets.svg' imageAlt='50/50 Tickets' stateOfButton={tickets}/>
         </div>
       ) : (
-        <div className={styles.container}>
+        <div className={styles.locationContainer}>
             <h2 className={styles.locationHeader}>Getting the location data&hellip; </h2>
         </div>
       )
