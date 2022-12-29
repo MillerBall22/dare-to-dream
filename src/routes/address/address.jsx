@@ -174,6 +174,9 @@ export default function Address() {
       </div>
       <div className={styles.buttonContainer}>
         <Button title='Reset' onClick={resetFormFields} />
+        {currentUser && 
+          <Button title='Create Account & Confirm Purchase' onClick={() => {}} />
+        }
         <Button title='Confirm Purchase' onClick={() => {}}/>
       </div>
       <h2>{confirmation}</h2>

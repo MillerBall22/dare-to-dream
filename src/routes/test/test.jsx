@@ -1,15 +1,45 @@
-import { useState } from "react"
-import { getUser} from "../../utils/airtable/users"
+import React from "react";
+import { useGeolocated } from "react-geolocated";
 
 export default function Test() {
-  const [email, setEmail] = useState("");
-  const updateUserTest = async () => {
-    console.log("hello", await getUser("miller.keaton22@g.com"));
-  }
-  return (
-    <div>
-        <button onClick={updateUserTest}>Click here</button>
-        <h1>{email}</h1>  
-    </div>
-  )
+    const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+    useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: false,
+      },
+      userDecisionTimeout: 5000,
+    });
+
+  return !isGeolocationAvailable ? (
+    <div>Your browser does not support Geolocation</div>
+  ) : !isGeolocationEnabled ? (
+    <div>Geolocation is not enabled</div>
+  ) : coords ? (
+    <table>
+      <tbody>
+        <tr>
+          <td>latitude</td>
+          <td>{coords.latitude}</td>
+        </tr>
+        <tr>
+          <td>longitude</td>
+          <td>{coords.longitude}</td>
+        </tr>
+        <tr>
+          <td>altitude</td>
+          <td>{coords.altitude}</td>
+        </tr>
+        <tr>
+          <td>heading</td>
+          <td>{coords.heading}</td>
+        </tr>
+        <tr>
+          <td>speed</td>
+          <td>{coords.speed}</td>
+        </tr>
+      </tbody>
+    </table>
+  ) : (
+    <div>Getting the location data&hellip; </div>
+  );
 }

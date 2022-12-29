@@ -6,6 +6,23 @@
     background-color: var(--white-color);
 }
 
+.locationContainer {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    padding: 50px 2rem;
+    background-color: var(--white-color);
+}
+
+.locationHeader {
+    text-align: center;
+    color: var(--primary-blue);
+}
+
+.buttonContainer {
+    width: 400px
+}
+
 .ticket-card {
     min-width: 25%;
 }
