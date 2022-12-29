@@ -12,7 +12,7 @@ import Test from './routes/test/test';
 
 function App() {
   return (
-    <div>
+    <div className='full-page-container'>
       <NavigationBar/>
       <Routes>
         <Route path='/'>
