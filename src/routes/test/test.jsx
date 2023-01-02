@@ -1,45 +1,13 @@
 import React from "react";
-import { useGeolocated } from "react-geolocated";
+import Button from '../../components/button/button.component';
+import { httpGetLocation } from "../../services/locationIQ/locationIQ";
 
 export default function Test() {
-    const { coords, isGeolocationAvailable, isGeolocationEnabled } =
-    useGeolocated({
-      positionOptions: {
-        enableHighAccuracy: false,
-      },
-      userDecisionTimeout: 5000,
-    });
-
-  return !isGeolocationAvailable ? (
-    <div>Your browser does not support Geolocation</div>
-  ) : !isGeolocationEnabled ? (
-    <div>Geolocation is not enabled</div>
-  ) : coords ? (
-    <table>
-      <tbody>
-        <tr>
-          <td>latitude</td>
-          <td>{coords.latitude}</td>
-        </tr>
-        <tr>
-          <td>longitude</td>
-          <td>{coords.longitude}</td>
-        </tr>
-        <tr>
-          <td>altitude</td>
-          <td>{coords.altitude}</td>
-        </tr>
-        <tr>
-          <td>heading</td>
-          <td>{coords.heading}</td>
-        </tr>
-        <tr>
-          <td>speed</td>
-          <td>{coords.speed}</td>
-        </tr>
-      </tbody>
-    </table>
-  ) : (
-    <div>Getting the location data&hellip; </div>
-  );
+  const getLocation = async () => {
+    const location = await httpGetLocation(10, 10);
+    console.log(location.address.state)
+  }
+  return (
+    <Button title='Get Location' onClick={getLocation} />
+  )
 }
