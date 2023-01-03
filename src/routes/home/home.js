@@ -1,5 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
-import {StoreContext, ACTION_TYPES } from "../../store/store-context";
+import { useState, useEffect } from 'react';
 import TicketCard from '../../components/card/ticket-card.component'
 import styles from './Home.module.css'
 import Slideshow from '../../components/slideshow/slideshow.component';
@@ -7,6 +6,8 @@ import Slideshow from '../../components/slideshow/slideshow.component';
 import { useGeolocated } from "react-geolocated";
 import { httpGetLocation } from '../../services/locationIQ/locationIQ';
 import Button from '../../components/button/button.component';
+import { useSelector } from 'react-redux';
+import { selectCart } from '../../store/cart/cart.selector';
 
 export default function Home() {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -15,29 +16,21 @@ export default function Home() {
         enableHighAccuracy: false,
       },
     });
-  console.log(coords);
+
   const [tickets, setTickets] = useState('unavailable');
   const [inSaskatchewan, setInSaskatchewan] = useState('unavailable');
-  const {state, dispatch} = useContext(StoreContext);
-  const {cart} = state;
+  const { cart } = useSelector(selectCart);
 
   useEffect(() => {
     if (cart[0].ticketQuantity !== 0 || cart[1].ticketQuantity !== 0 || cart[2].ticketQuantity !== 0) {
       setTickets('can buy');
     } else {
-      dispatch({
-            type: ACTION_TYPES.REMOVE_FROM_CART,
-            payload: {
-              ticketId: 'fiftyFiftyTickets'
-            },
-          });
       setTickets('unavailable')
     }
   }, [cart[0].ticketQuantity, cart[1].ticketQuantity, cart[2].ticketQuantity])
 
   const getLocation = async () => {
     const location = await httpGetLocation(coords.latitude, coords.longitude);
-    console.log(location.address.state)
     setInSaskatchewan(location.address.state)
   }
   const regularTicketsState = 'can buy';

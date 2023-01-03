@@ -1,21 +1,14 @@
-import {useContext} from 'react';
-import {StoreContext, ACTION_TYPES } from "../../store/store-context";
-
 import styles from './ticket-card.module.css';
 
 import ToggleButton from '../toggle-button/toggle-button.component';
-
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../../store/cart/cart.action';
 const TicketCard = ({ticketId, ticketTitle, price, imageUrl ,imageAlt, stateOfButton}) => {
 
-    const {dispatch} = useContext(StoreContext);
-    
-    async function addToCart () {
-        dispatch({
-            type: ACTION_TYPES.ADD_TO_CART,
-            payload: {
-              ticketId,
-            },
-          });
+    //const {dispatch} = useContext(StoreContext);
+    const dispatch = useDispatch();
+    async function addToCartButton () {
+        dispatch(addToCart(ticketId));
     }
     return (
         <div className={styles.container} >
@@ -24,7 +17,7 @@ const TicketCard = ({ticketId, ticketTitle, price, imageUrl ,imageAlt, stateOfBu
             <div className={styles.imageContainer}>
                 <img src={imageUrl} width={200} height={200} alt={imageAlt}/>
             </div>
-            <ToggleButton buttonState={stateOfButton} onClick={addToCart}/>
+            <ToggleButton buttonState={stateOfButton} onClick={addToCartButton}/>
         </div>);
 }
 

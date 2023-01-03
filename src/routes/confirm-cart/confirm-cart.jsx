@@ -1,37 +1,22 @@
 import Button from '../../components/button/button.component'
-import { useContext, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './confirm-cart.module.css'
 import ConfirmCartItem from '../../components/confirm-cart-item/confirm-cart-item.component';
 import { useNavigate } from 'react-router-dom';
-import { StoreContext, ACTION_TYPES } from "../../store/store-context";
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { selectCart } from '../../store/cart/cart.selector';
 
 export default function ConfirmCart() {
   const [ticketTotal, setTicketTotal] = useState(0);
   const [ticketPriceTotal, setTicketPriceTotal] = useState(0);
-  const { state } = useContext(StoreContext);
-  const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    toggleCart()
-  },[])
-
-  async function toggleCart() {
-    dispatch({
-      type: ACTION_TYPES.TOGGLE_CART_DROPDOWN,
-      payload: {
-        cartDropdown: false,
-      },
-    });
-  }
 
   const handleApproval = () => {
     console.log("Hello")
     navigate('/address')
   }
 
-  const { cart } = state;
+  const {cart} = useSelector(selectCart);
 
   useEffect(() => {
       setTicketTotal(cart[0].ticketQuantity + cart[1].ticketQuantity + cart[2].ticketQuantity + cart[3].ticketQuantity);

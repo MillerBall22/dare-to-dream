@@ -1,12 +1,10 @@
-import {useContext, useState, useEffect} from 'react';
+import { useState, useEffect} from 'react';
 import styles from './navigation-bar.module.css';
-import { useSelector} from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 
 import {HiShoppingCart} from 'react-icons/hi';
 import {RiAccountCircleFill} from 'react-icons/ri';
 import {FaTwitterSquare, FaFacebookSquare, FaInstagramSquare} from 'react-icons/fa';
-
-import {StoreContext, ACTION_TYPES} from "../../store/store-context";
 
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 import LoginDropdown from '../login-dropdown/login-dropdown.component';
@@ -14,16 +12,20 @@ import AccountOptionsDropdown from '../account-options-dropdown/account-options-
 import { Link } from 'react-router-dom';
 
 import { selectCurrentUser } from '../../store/user/user.selector';
+import { selectCart } from '../../store/cart/cart.selector';
+import { selectCartDropdown, selectLoginDropdown } from '../../store/dropdowns/dropdowns.selector';
+import { setCartDropdown, setLoginDropdown } from '../../store/dropdowns/dropdowns.action';
 
 function NavigationBar() {
-  const {dispatch} = useContext(StoreContext);
-
   const [ticketTotal, setTicketTotal] = useState(0);
   const [dropdownComponent, setDropdownComponent] = useState(<LoginDropdown/>)
-  const {state} = useContext(StoreContext);
-  const {cart, cartDropdown, loginDropdown, toggleLoggedin} = state;
+  const {cart} = useSelector(selectCart);
+
+  const cartDropdown = useSelector(selectCartDropdown);
+  const loginDropdown = useSelector(selectLoginDropdown);
 
   const currentUser = useSelector(selectCurrentUser);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTicketTotal(cart[0].ticketQuantity + cart[1].ticketQuantity + cart[2].ticketQuantity + cart[3].ticketQuantity)
@@ -43,36 +45,16 @@ function NavigationBar() {
           setDropdownComponent(<LoginDropdown/>)
         }
     }
-  }, [toggleLoggedin, currentUser])
+  }, [ currentUser])
 
   async function toggleCart() {
-    dispatch({
-            type: ACTION_TYPES.TOGGLE_LOGIN_DROPDOWN,
-            payload: {
-              loginDropdown: false,
-            },
-          });
-    dispatch({
-            type: ACTION_TYPES.TOGGLE_CART_DROPDOWN,
-            payload: {
-              cartDropdown: !cartDropdown,
-            },
-          });
+    dispatch(setLoginDropdown(false));
+    dispatch(setCartDropdown(!cartDropdown));
   }
 
   async function toggleLogin() {
-    dispatch({
-            type: ACTION_TYPES.TOGGLE_CART_DROPDOWN,
-            payload: {
-              cartDropdown: false,
-            },
-          });
-    dispatch({
-            type: ACTION_TYPES.TOGGLE_LOGIN_DROPDOWN,
-            payload: {
-              loginDropdown: !loginDropdown,
-            },
-          });
+    dispatch(setCartDropdown(false));
+    dispatch(setLoginDropdown(!loginDropdown));
   }
 
   return (
