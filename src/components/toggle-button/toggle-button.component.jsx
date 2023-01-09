@@ -12,7 +12,7 @@ const ToggleButton = ({buttonState, onClick}) => {
                 setButtonType(<DisabledButton title="Sold Out"/>)
                 break;
             case 'unavailable':
-                setButtonType(<DisabledButton title='Ticket Purchase Required'/>)
+                setButtonType(<DisabledButton title='Purchase Required'/>)
                 break;
             default:
                 setButtonType(<Button title='Add To Cart' onClick={onClick}/>)
