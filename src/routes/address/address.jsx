@@ -17,12 +17,16 @@ const defaultFormFields = {
   address: '',
   city: '',
   postalCode: '',
+  cardNumber: '',
+  cardDate: '',
+  cardCVV: '',
+  cardPostalCode: ''
 }
 
 export default function Address() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [confirmation, setConfirmation] = useState("");
-  const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode } = formFields;
+  const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode, cardNumber, cardDate, cardCVV, cardPostalCode } = formFields;
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
 
@@ -169,6 +173,43 @@ export default function Address() {
           name='email'
           value={email}
           placeholder='johndoe@email.com'
+        />
+      </div>
+    <h1 className={styles.title}>Payment Details</h1>
+      <div className={styles.inputContainer}>
+        <FormInput
+          label='Card Number:'
+          type='text'
+          onChange={handleChange}
+          name='cardNumber'
+          value={cardNumber}
+          placeholder='16 Digit Card Number'
+        />
+        <FormInput
+          label='Expiration Date:'
+          type='text'
+          onChange={handleChange}
+          name='cardDate'
+          value={cardDate}
+          placeholder='01/23'
+        />
+      </div>
+      <div className={styles.inputContainer}>
+        <FormInput
+          label='CVV'
+          type='text'
+          onChange={handleChange}
+          name='cardCVV'
+          value={cardCVV}
+          placeholder='3 Digit CVV'
+        />
+        <FormInput
+          label='Card Postal Code:'
+          type='text'
+          onChange={handleChange}
+          name='cardPostalCode'
+          value={cardPostalCode}
+          placeholder='S0H 3G0'
         />
       </div>
       <div className={styles.buttonContainer}>

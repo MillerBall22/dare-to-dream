@@ -1,3 +1,48 @@
+@media screen and (min-width: 400px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: center;
+        background-color: var(--third-blue);
+        color: var(--white-color);
+        border-radius: 20px;
+        padding: 20px;
+        min-width: 25%;
+        margin: 20px 30px;
+    }
+    
+    .locationContainer {
+        display: flex;
+        align-items: stretch;
+        justify-content: center;
+        background-color: var(--third-blue);
+        color: var(--white-color);
+        border-radius: 20px;
+        padding: 20px;
+        max-width: 400px;
+        min-width: 25%;
+        margin: 20px 30px;
+    }
+    
+    .title {
+        flex: 1;
+        text-align: center;
+    }
+    
+    .price {
+        flex: 1;
+        margin-top: 10px;
+        text-align: center;
+    }
+    
+    .imageContainer {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 400px) {
 .container {
     display: flex;
     flex-direction: column;
@@ -7,7 +52,7 @@
     color: var(--white-color);
     border-radius: 20px;
     padding: 20px;
-    min-width: 25%;
+    min-width: 240px;
     margin: 20px 30px;
 }
 
@@ -38,4 +83,5 @@
 .imageContainer {
     flex: 1;
     text-align: center;
+}
 }

@@ -2,7 +2,7 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    padding: 20px 2rem;
+    padding: 20px 2rem 20px 2rem;
     background-color: var(--white-color);
 }
 
@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-evenly;
     flex-wrap: wrap;
-    padding: 50px 2rem;
+    padding: 50px 2rem 50px 2rem;
     background-color: var(--white-color);
 }
 
