@@ -8,6 +8,10 @@ import { useEffect } from 'react';
 import { getUserById, updateUser } from '../../utils/airtable/users';
 import { setCurrentUser } from '../../store/user/user.action';
 
+import { selectCart } from '../../store/cart/cart.selector';
+
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+
 const defaultFormFields = {
   firstName: '',
   lastName: '',
@@ -24,11 +28,59 @@ const defaultFormFields = {
 }
 
 export default function Address() {
+  const stripe = useStripe();
+  const elements = useElements();
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [confirmation, setConfirmation] = useState("");
   const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode, cardNumber, cardDate, cardCVV, cardPostalCode } = formFields;
   const currentUser = useSelector(selectCurrentUser);
   const dispatch = useDispatch();
+  const [amount, setAmount] = useState(0) 
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
+
+  const paymentHandler = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+    setIsProcessingPayment(true);
+    const response = await fetch('/.netlify/functions/create-payment-intent', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount: amount * 100 }),
+    }).then((res) => {
+      return res.json();
+    });
+
+    const clientSecret = response.paymentIntent.client_secret;
+
+    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: currentUser ? currentUser.displayName : 'Yihua Zhang',
+        },
+      },
+    });
+
+    setIsProcessingPayment(false);
+
+    if (paymentResult.error) {
+      alert(paymentResult.error.message);
+    } else {
+      if (paymentResult.paymentIntent.status === 'succeeded') {
+        alert('Payment Successful!');
+      }
+    }
+  };
+
+  const { cart } = useSelector(selectCart);
+
+  useEffect(() => {
+      setAmount((cart[0].ticketQuantity * 60) + (cart[1].ticketQuantity * 150) + (cart[2].ticketQuantity * 400) + (cart[3].ticketQuantity * 20));
+    },[cart])
 
   useEffect(() => {
     setUserInfo();
@@ -211,6 +263,7 @@ export default function Address() {
           value={cardPostalCode}
           placeholder='S0H 3G0'
         />
+      <CardElement />
       </div>
       <div className={styles.buttonContainer}>
         <Button title='Reset' onClick={resetFormFields} />
