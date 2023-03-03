@@ -1,3 +1,15 @@
+@media screen and (max-width: 800px) {
+    .desktopContainer {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .mobileContainer {
+        display: none;
+    }
+}
+
 .navigationTop {
     background-color: var(--primary-blue);
     height: 50px;
@@ -20,20 +32,6 @@
 
 .socialLink:hover {
     color: var(--yellow-color);
-}
-
-.navigationCenter {
-    background-color: var(--white-color);
-    height: 95px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 0 30px 10px;
-}
-
-.businessDirectory {
-    position: relative;
-    top: -8px;
 }
 
 .navigationBottom {
@@ -65,4 +63,30 @@
 .linkIcons {
     width: 30px;
     height: 30px;
+}
+
+.mobileNavigation {
+    background-color: var(--primary-blue);
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navBars {
+    width: 30px;
+    height: 30px;
+    margin-top: 2px;
+    font-size: 28px;
+}
+
+.navBars:hover {
+    color: var(--yellow-color);
+}
+
+.mobileIcons {
+    display: flex;
+    width: 100px;
+    flex-direction: row;
+    justify-content: space-evenly;
 }

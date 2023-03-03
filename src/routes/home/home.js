@@ -31,6 +31,7 @@ export default function Home() {
 
   const getLocation = async () => {
     const location = await httpGetLocation(coords.latitude, coords.longitude);
+    console.log(location)
     setInSaskatchewan(location.address.state)
   }
   const regularTicketsState = 'can buy';

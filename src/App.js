@@ -9,31 +9,43 @@ import ConfirmCart from './routes/confirm-cart/confirm-cart';
 import Contact from './routes/contact/contact';
 import PastWinners from './routes/past-winners/past-winners';
 import Test from './routes/test/test';
+import { Elements } from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
+
+const stripePromise = loadStripe(
+  process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY
+);
 
 function App() {
+
+  const options = {
+    // passing the client secret obtained from the server
+  };
+
   return (
-    <div className='full-page-container'>
-      <NavigationBar/>
-      <Routes>
-        <Route path='/'>
-          <Route index element={<Home/>} />
-          <Route path={'/about'} element={<About/>} />
-          <Route path={'/account-details'} element={<AccountDetails/>} />
-          <Route path={'/address'} element={<Address/>} />
-          <Route path={'/confirm-cart'} element={<ConfirmCart/>} />
-          <Route path={'/contact'} element={<Contact/>} />
-          <Route path={'/past-winners'} element={<PastWinners/>} />
-          <Route path={'/test'} element={<Test/>} />
-        </Route>
-      </Routes>
-      <div className='footer'>
-        <h3>Town of Mossbank</h3>
-        <p>311 Main St, P.O. Box 370 Mossbank, SK S0H 3G0</p>
-        <p>Phone: 306-354-2294</p>
-        <p>Fax: 306-354-7725</p>
-        <p>Email: townofmossbank@sasktel.net</p>
+    <Elements stripe={stripePromise} options={options}>
+      <div className='full-page-container'>
+        <NavigationBar/>
+        <Routes>
+          <Route path='/'>
+            <Route index element={<Home/>} />
+            <Route path={'/about'} element={<About/>} />
+            <Route path={'/account-details'} element={<AccountDetails/>} />
+            <Route path={'/address'} element={<Address/>} />
+            <Route path={'/confirm-cart'} element={<ConfirmCart/>} />
+            <Route path={'/contact'} element={<Contact/>} />
+            <Route path={'/past-winners'} element={<PastWinners/>} />
+            <Route path={'/test'} element={<Test/>} />
+          </Route>
+        </Routes>
+        <div className='footer'>
+          <h3>Town of Mossbank</h3>
+          <p>311 Main St, P.O. Box 370 Mossbank, SK S0H 3G0</p>
+          <p>Phone: 1-866-359-2WIN (2946)</p>
+          <p>Email: mossbankdaretodreamlotto@gmail.com</p>
+        </div>
       </div>
-    </div>
+    </Elements>
   );
 }
 
