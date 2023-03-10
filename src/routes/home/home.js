@@ -6,8 +6,10 @@ import Slideshow from '../../components/slideshow/slideshow.component';
 import { useGeolocated } from "react-geolocated";
 import { httpGetLocation } from '../../services/locationIQ/locationIQ';
 import Button from '../../components/button/button.component';
+import AltButton from '../../components/alt-button/alt-button.component';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../store/cart/cart.selector';
+import Poster from '../../components/poster/poster';
 
 export default function Home() {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
@@ -19,6 +21,7 @@ export default function Home() {
 
   const [tickets, setTickets] = useState('unavailable');
   const [inSaskatchewan, setInSaskatchewan] = useState('unavailable');
+  const [showPoster, setShowPoster] = useState(true)
   const { cart } = useSelector(selectCart);
 
   useEffect(() => {
@@ -35,8 +38,13 @@ export default function Home() {
     setInSaskatchewan(location.address.state)
   }
   const regularTicketsState = 'can buy';
+
+  const flipPoster = () => {
+    setShowPoster(!showPoster)
+  }
   return (
     <div>
+    {showPoster ? <div><AltButton title="Close Poster" onClick={flipPoster}/><Poster/><AltButton title="Close Poster" onClick={flipPoster}/></div> : <AltButton title="Open Poster" onClick={flipPoster}/>}
       <div className={styles.banner}>
         <Slideshow/>
       </div>

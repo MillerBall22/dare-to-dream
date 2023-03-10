@@ -83,7 +83,7 @@ function NavigationBar() {
               Home
             </Link>
           </div>
-          <div>
+          {/*<div>
             <Link className={styles.navigationLink} to="/past-winners">
               Past Winners
             </Link>
@@ -98,6 +98,7 @@ function NavigationBar() {
               About
             </Link>
           </div>
+          */}
           <div onClick={toggleCart}>
             <Link className={styles.navigationLink}>
               <HiShoppingCart className={styles.linkIcons}/>&nbsp;{ticketTotal} Items

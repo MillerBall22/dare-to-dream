@@ -1,0 +1,13 @@
+.container {
+    background-color: var(--pink-color);
+    color: #ffffff;
+    padding: 10px;
+    cursor: pointer;
+    text-align: center;
+    min-width: 200px;
+}
+
+.container:hover {
+    background-color: #ffffff;
+    color: var(--pink-color);
+}

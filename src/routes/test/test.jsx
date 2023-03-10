@@ -1,12 +1,13 @@
+import { CardElement } from "@stripe/react-stripe-js";
 import React from "react";
-import { PaymentElement } from '@stripe/react-stripe-js';
+import Button from "../../components/button/button.component";
 
 export default function Test() {
   return (
-    <form>
-      <PaymentElement />
-      <button>Submit</button>
-    </form>
+    <div>
+      <CardElement />
+      <Button  title='Submit' onClick={() => {}}/>
+    </div>
   );
 };
 
