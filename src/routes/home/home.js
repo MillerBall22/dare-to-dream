@@ -64,10 +64,15 @@ export default function Home() {
           <TicketCard className='ticket-card' ticketId='fiftyFiftyTickets' ticketTitle='50/50 Tickets' price={20} imageUrl='/static/3 Tickets.svg' imageAlt='50/50 Tickets' stateOfButton={tickets}/>
         </div>
             ) : isGeolocationEnabled ? ( 
+              <div>
                 <div className={styles.locationContainer}>
-                  <h2 className={styles.locationHeader}>Press the button to get location data. </h2>
+                  <h2 className={styles.locationHeader}>Press the button to get location data and continue to purchasing.</h2>
                   <Button title='Get Location' onClick={getLocation}/>
+                  </div>
+                  <div>
+                  <h3 className={styles.locationHeader}>Must be in Saskatchewan to be eligible to purchase tickets.</h3>
                 </div>
+              </div>
             ) : inSaskatchewan !== "Saskatchewan" ? (
               <div className={styles.locationContainer}>
                 <h2 className={styles.locationHeader}>Sorry you are not eligible to buy tickets.</h2>
