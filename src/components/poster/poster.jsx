@@ -8,14 +8,10 @@ function Poster() {
   return (
     <div className={styles.container} >
       <div className={styles.pdf }>
-      {width > 1300 ? (
-        <PDFReader url="poster.pdf" showAllPage={true} scale="2" />
-        ) : width > 700 ? (
-          <PDFReader url="poster.pdf" showAllPage={true} scale="1" />
-        ) : (
-          <PDFReader url="poster.pdf" showAllPage={true} width="250" />
-        )
-      }
+        <img src={'/static/Poster1.png'} className={styles.poster} alt={''}/>
+        <img src={'/static/Poster2.png'} className={styles.poster} alt={''}/>
+        <img src={'/static/Poster3.png'} className={styles.poster} alt={''}/>
+        <img src={'/static/Poster4.png'} className={styles.poster} alt={''}/>
       </div>
     </div>
   );

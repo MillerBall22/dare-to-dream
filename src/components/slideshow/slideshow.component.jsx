@@ -13,6 +13,11 @@ import Sponsor2 from '../../assets/sponsors/sponsor2.png'
 import Sponsor3 from '../../assets/sponsors/sponsor3.png'
 import Sponsor4 from '../../assets/sponsors/sponsor4.png'
 import Sponsor5 from '../../assets/sponsors/sponsor5.png'
+import Sponsor6 from '../../assets/sponsors/sponsor6.png'
+import Sponsor7 from '../../assets/sponsors/sponsor7.png'
+import Sponsor8 from '../../assets/sponsors/sponsor8.png'
+import Sponsor9 from '../../assets/sponsors/sponsor9.png'
+import Sponsor10 from '../../assets/sponsors/sponsor10.png'
 import { useEffect, useState } from 'react';
 
 const Slideshow = () => {
@@ -36,12 +41,27 @@ const Slideshow = () => {
                 break;
             case 4:
                 setSponsor(Sponsor5)
-                break;        
-            default:
+                break;
+            case 5:
+                setSponsor(Sponsor6)
+                break;
+            case 6:
+                setSponsor(Sponsor7)
+                break;
+            case 7:
+                setSponsor(Sponsor8)
+                break;
+            case 8:
+                setSponsor(Sponsor9)
+                break;
+            case 9:
                 setSponsor(Sponsor1)
+                break;            
+            default:
+                setSponsor(Sponsor10)
                 break;
         }
-        if (sponsorCount === 4) {
+        if (sponsorCount === 9) {
             setSponsorCount(0)
         } else {
             setSponsorCount(sponsorCount + 1)
@@ -84,14 +104,12 @@ const Slideshow = () => {
 
     return (
         <div className={styles.container}>
-            <div className={styles.sidephoto}>
                 <img src={sponsor} alt="Sponsors" className={styles.sidePhoto}/>
-            </div>
-            <div>
                 <img src={Logo} alt="Dare to Dream Logo" className={styles.photo}/>
-            </div>
-            <div className={styles.sidephoto}>
                 <img src={prize} alt="Prizes" className={styles.sidePhoto}/>
+            <div className='mobilePhotoContainer'>
+                <img src={sponsor} alt="Sponsors" className={styles.mobilePhoto}/>
+                <img src={prize} alt="Prizes" className={styles.mobilePhoto}/>
             </div>
         </div>);
 }

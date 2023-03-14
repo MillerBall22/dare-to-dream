@@ -5,9 +5,39 @@
 }
 
 .pdf {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin-top: 30px;
 }
 
-.reader {
-    width: 100px
+@media screen and (min-width: 100px) {
+    .poster {
+        width: 280px
+    }
+}
+
+@media screen and (min-width: 400px) {
+    .poster {
+        width: 300px
+    }
+}
+
+@media screen and (min-width: 800px) {
+    .poster {
+        width: 700px
+    }
+}
+
+@media screen and (min-width: 1400px) {
+    .poster {
+        width: 1300px
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .poster {
+        width: 1500px
+    }
 }
