@@ -230,7 +230,7 @@ export default function Address() {
         {currentUser && 
           <Button title='Create Account & Confirm Purchase' onClick={() => {}} />
         }
-        <Button title='Confirm Purchase' onClick={() => {}}/>
+        <Button title='Confirm Purchase' onClick={paymentHandler}/>
       </div>
       <h2>{confirmation}</h2>
     </div>
