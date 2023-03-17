@@ -7,6 +7,8 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 import { useEffect } from 'react';
 import { getUserById, updateUser } from '../../utils/airtable/users';
 import { setCurrentUser } from '../../store/user/user.action';
+import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { selectCart } from '../../store/cart/cart.selector';
 
 const defaultFormFields = {
   firstName: '',
@@ -17,22 +19,28 @@ const defaultFormFields = {
   address: '',
   city: '',
   postalCode: '',
-  cardNumber: '',
-  cardDate: '',
-  cardCVV: '',
-  cardPostalCode: ''
 }
 
 export default function Address() {
   const [formFields, setFormFields] = useState(defaultFormFields);
+  const [amount, setAmount] = useState(0);
   const [confirmation, setConfirmation] = useState("");
+  const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode, cardNumber, cardDate, cardCVV, cardPostalCode } = formFields;
   const currentUser = useSelector(selectCurrentUser);
+  const stripe = useStripe();
+  const elements = useElements();
   const dispatch = useDispatch();
 
   useEffect(() => {
     setUserInfo();
   }, [])
+
+    const {cart} = useSelector(selectCart);
+
+  useEffect(() => {
+      setAmount((cart[0].ticketQuantity * 60) + (cart[1].ticketQuantity * 150) + (cart[2].ticketQuantity * 400) + (cart[3].ticketQuantity * 20));
+    },[cart])
 
   const setUserInfo = async () => {
     let userEmail = '';
@@ -99,6 +107,44 @@ export default function Address() {
   const changeUserInfo = async (newUser) => {
     await dispatch(setCurrentUser(newUser));
   }
+
+  const paymentHandler = async (e) => {
+    e.preventDefault();
+    if (!stripe || !elements) {
+      return;
+    }
+    setIsProcessingPayment(true);
+    const response = await fetch('/.netlify/functions/create-payment-intent', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount: amount * 100 }),
+    }).then((res) => {
+      return res.json();
+    });
+
+    const clientSecret = response.paymentIntent.client_secret;
+
+    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: currentUser ? currentUser.displayName : 'Yihua Zhang',
+        },
+      },
+    });
+
+    setIsProcessingPayment(false);
+
+    if (paymentResult.error) {
+      alert(paymentResult.error.message);
+    } else {
+      if (paymentResult.paymentIntent.status === 'succeeded') {
+        alert('Payment Successful!');
+      }
+    }
+  };
 
   return (
     <div className={styles.container}>
@@ -176,42 +222,9 @@ export default function Address() {
         />
       </div>
     <h1 className={styles.title}>Payment Details</h1>
-      <div className={styles.inputContainer}>
-        <FormInput
-          label='Card Number:'
-          type='text'
-          onChange={handleChange}
-          name='cardNumber'
-          value={cardNumber}
-          placeholder='16 Digit Card Number'
-        />
-        <FormInput
-          label='Expiration Date:'
-          type='text'
-          onChange={handleChange}
-          name='cardDate'
-          value={cardDate}
-          placeholder='01/23'
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <FormInput
-          label='CVV'
-          type='text'
-          onChange={handleChange}
-          name='cardCVV'
-          value={cardCVV}
-          placeholder='3 Digit CVV'
-        />
-        <FormInput
-          label='Card Postal Code:'
-          type='text'
-          onChange={handleChange}
-          name='cardPostalCode'
-          value={cardPostalCode}
-          placeholder='S0H 3G0'
-        />
-      </div>
+      <div className={styles.cardElementContainer} >
+            <CardElement />
+        </div>
       <div className={styles.buttonContainer}>
         <Button title='Reset' onClick={resetFormFields} />
         {currentUser && 

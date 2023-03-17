@@ -8,9 +8,6 @@ import Address from './routes/address/address';
 import ConfirmCart from './routes/confirm-cart/confirm-cart';
 import Contact from './routes/contact/contact';
 import PastWinners from './routes/past-winners/past-winners';
-import Test from './routes/test/test';
-import { Elements } from '@stripe/react-stripe-js';
-import { loadStripe } from '@stripe/stripe-js';
 
 
 function App() {
@@ -26,7 +23,6 @@ function App() {
           <Route path={'/confirm-cart'} element={<ConfirmCart/>} />
           <Route path={'/contact'} element={<Contact/>} />
           <Route path={'/past-winners'} element={<PastWinners/>} />
-          <Route path={'/test'} element={<Test/>} />
         </Route>
       </Routes>
       <div className='footer'>

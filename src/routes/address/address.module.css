@@ -33,3 +33,9 @@
     justify-content: space-evenly;
     flex: 1;
 }
+
+.cardElementContainer {
+    padding: 10px 15%;
+    font-size: 24px;
+    color: var(--primary-blue);
+}
