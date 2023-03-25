@@ -26,7 +26,7 @@ export default function Address() {
   const [amount, setAmount] = useState(0);
   const [confirmation, setConfirmation] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode, cardNumber, cardDate, cardCVV, cardPostalCode } = formFields;
+  const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode } = formFields;
   const currentUser = useSelector(selectCurrentUser);
   const stripe = useStripe();
   const elements = useElements();
@@ -114,13 +114,14 @@ export default function Address() {
       return;
     }
     setIsProcessingPayment(true);
-    const response = await fetch('/netlify/functions/create-payment-intent', {
+    const response = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'post',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ amount: amount * 100 }),
     }).then((res) => {
+      console.log(res.json)
       return res.json();
     });
 
@@ -130,7 +131,7 @@ export default function Address() {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: currentUser ? currentUser.displayName : 'Yihua Zhang',
+          name: 'Keaton Miller',
         },
       },
     });
