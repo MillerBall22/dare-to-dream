@@ -5,10 +5,13 @@ import FormInput from '../../components/form-input/form-input.component';
 import styles from './address.module.css';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import { useEffect } from 'react';
-import { getUserById, updateUser } from '../../utils/airtable/users';
+import { getUserById, updateUser, createUser,getUser } from '../../utils/airtable/users';
 import { setCurrentUser } from '../../store/user/user.action';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { selectCart } from '../../store/cart/cart.selector';
+import { createPurchase } from '../../utils/airtable/purchases';
+import LoadingMessage from '../../components/loading-message/loading-message.component';
+import { useNavigate } from 'react-router-dom';
 
 const defaultFormFields = {
   firstName: '',
@@ -24,13 +27,15 @@ const defaultFormFields = {
 export default function Address() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [amount, setAmount] = useState(0);
+  const [ticketTotal, setTicketTotal] = useState(0);
   const [confirmation, setConfirmation] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode } = formFields;
   const currentUser = useSelector(selectCurrentUser);
   const stripe = useStripe();
   const elements = useElements();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
+  const navigate = useNavigate(); 
 
   useEffect(() => {
     setUserInfo();
@@ -40,6 +45,7 @@ export default function Address() {
 
   useEffect(() => {
       setAmount((cart[0].ticketQuantity * 60) + (cart[1].ticketQuantity * 150) + (cart[2].ticketQuantity * 400) + (cart[3].ticketQuantity * 20));
+      setTicketTotal((cart[0].ticketQuantity) + (cart[1].ticketQuantity) + (cart[2].ticketQuantity) + (cart[3].ticketQuantity));
     },[cart])
 
   const setUserInfo = async () => {
@@ -51,31 +57,33 @@ export default function Address() {
     let userAddress = '';
     let userCity = '';
     let userPostalCode = '';
-    if (currentUser.fields["Email"]) {
-      userEmail = currentUser.fields["Email"]
+    if (currentUser) {
+      if (currentUser.fields["Email"]) {
+        userEmail = currentUser.fields["Email"]
+      }
+      if (currentUser.fields["First Name"]) {
+        userFirstName = currentUser.fields["First Name"]
+      }
+      if (currentUser.fields["Last Name"]) {
+        userLastName = currentUser.fields["Last Name"]
+      }
+      if (currentUser.fields["Primary Phone"]) {
+        userPrimaryPhone = currentUser.fields["Primary Phone"]
+      }
+      if (currentUser.fields["Secondary Phone"]) {
+        userSecondaryPhone = currentUser.fields["Secondary Phone"]
+      }
+      if (currentUser.fields["Address"]) {
+        userAddress = currentUser.fields["Address"]
+      }
+      if (currentUser.fields["City"]) {
+        userCity = currentUser.fields["City"]
+      }
+      if (currentUser.fields["Postal Code"]) {
+        userPostalCode = currentUser.fields["Postal Code"]
+      }
     }
-    if (currentUser.fields["First Name"]) {
-      userFirstName = currentUser.fields["First Name"]
-    }
-    if (currentUser.fields["Last Name"]) {
-      userLastName = currentUser.fields["Last Name"]
-    }
-    if (currentUser.fields["Primary Phone"]) {
-      userPrimaryPhone = currentUser.fields["Primary Phone"]
-    }
-    if (currentUser.fields["Secondary Phone"]) {
-      userSecondaryPhone = currentUser.fields["Secondary Phone"]
-    }
-    if (currentUser.fields["Address"]) {
-      userAddress = currentUser.fields["Address"]
-    }
-    if (currentUser.fields["City"]) {
-      userCity = currentUser.fields["City"]
-    }
-    if (currentUser.fields["Postal Code"]) {
-      userPostalCode = currentUser.fields["Postal Code"]
-    }
-    const userInfo = {
+      const userInfo = {
       firstName: userFirstName,
       lastName: userLastName,
       email: userEmail,
@@ -110,9 +118,14 @@ export default function Address() {
 
   const paymentHandler = async (e) => {
     e.preventDefault();
+    if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode=== "") {
+      setConfirmation("Missing required information. please check that you have filled out the form to completion")
+      return;
+    }
     if (!stripe || !elements) {
       return;
     }
+    const fullName = `${firstName} ${lastName}`;
     setIsProcessingPayment(true);
     const response = await fetch('/.netlify/functions/create-payment-intent', {
       method: 'post',
@@ -121,7 +134,6 @@ export default function Address() {
       },
       body: JSON.stringify({ amount: amount * 100 }),
     }).then((res) => {
-      console.log(res.json)
       return res.json();
     });
 
@@ -131,7 +143,7 @@ export default function Address() {
       payment_method: {
         card: elements.getElement(CardElement),
         billing_details: {
-          name: 'Keaton Miller',
+          name: fullName,
         },
       },
     });
@@ -140,9 +152,95 @@ export default function Address() {
 
     if (paymentResult.error) {
       alert(paymentResult.error.message);
+      setConfirmation("Payment Unsuccessful");
     } else {
       if (paymentResult.paymentIntent.status === 'succeeded') {
-        alert('Payment Successful!');
+        const purchaseInfo = {
+          lastName,
+          firstName,
+          email,
+          primaryPhone,
+          secondaryPhone,
+          address,
+          city,
+          postalCode,
+          ticketsPurchased: ticketTotal,
+          singleTicket: cart[0].ticketQuantity,
+          threeTickets: cart[1].ticketQuantity,
+          tenTickets: cart[2].ticketQuantity,
+          fiftyFiftyTickets: cart[3].ticketQuantity,
+          totalPrice: amount
+        }
+        createPurchase(purchaseInfo)
+        navigate('/purchase-success')
+      }
+    }
+  };
+
+  const createAndPayHandler = async (e) => {
+    e.preventDefault();
+    if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode=== "") {
+      setConfirmation("Missing required information. please check that you have filled out the form to completion")
+      return;
+    }
+    if (!stripe || !elements) {
+      return;
+    }
+    const fullName = `${firstName} ${lastName}`;
+    setIsProcessingPayment(true);
+    const response = await fetch('/.netlify/functions/create-payment-intent', {
+      method: 'post',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ amount: amount * 100 }),
+    }).then((res) => {
+      return res.json();
+    });
+
+    const clientSecret = response.paymentIntent.client_secret;
+
+    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: elements.getElement(CardElement),
+        billing_details: {
+          name: fullName,
+        },
+      },
+    });
+
+    setIsProcessingPayment(false);
+
+    if (paymentResult.error) {
+      alert(paymentResult.error.message);
+      setConfirmation("Payment Unsuccessful");
+    } else {
+      if (paymentResult.paymentIntent.status === 'succeeded') {
+        const userCheck = await getUser(email);
+          if (!userCheck) {
+            await createUser(email)
+          }
+        const createdUser = await getUser(email)
+        const update = {email, firstName, lastName, primaryPhone, secondaryPhone, address, city, postalCode}
+        await updateUser(createdUser.id, update)
+        const purchaseInfo = {
+          lastName,
+          firstName,
+          email,
+          primaryPhone,
+          secondaryPhone,
+          address,
+          city,
+          postalCode,
+          ticketsPurchased: ticketTotal,
+          singleTicket: cart[0].ticketQuantity,
+          threeTickets: cart[1].ticketQuantity,
+          tenTickets: cart[2].ticketQuantity,
+          fiftyFiftyTickets: cart[3].ticketQuantity,
+          totalPrice: amount
+        }
+        createPurchase(purchaseInfo)
+        navigate('/purchase-success')
       }
     }
   };
@@ -226,13 +324,15 @@ export default function Address() {
       <div className={styles.cardElementContainer} >
             <CardElement />
         </div>
-      <div className={styles.buttonContainer}>
-        <Button title='Reset' onClick={resetFormFields} />
-        {currentUser && 
-          <Button title='Create Account & Confirm Purchase' onClick={() => {}} />
-        }
-        <Button title='Confirm Purchase' onClick={paymentHandler}/>
-      </div>
+      {isProcessingPayment ? <LoadingMessage/> :
+        <div className={styles.buttonContainer}>
+          <Button title='Reset' onClick={resetFormFields} />
+          {!currentUser && 
+            <Button title='Create Account & Confirm Purchase' onClick={createAndPayHandler} />
+          }
+          <Button title='Confirm Purchase' onClick={paymentHandler}/>
+        </div>
+      }
       <h2>{confirmation}</h2>
     </div>
   )

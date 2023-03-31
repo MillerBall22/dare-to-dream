@@ -11,12 +11,10 @@ export const getUser = async (email) => {
           resolve(getUser(email))
         }
       records.every(async function(record) {
-      console.log("ran");
       const result = {
         id: record.id,
         fields: record.fields
       }
-      console.log(result)
         resolve(result);
         return true
       }); 

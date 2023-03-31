@@ -8,6 +8,7 @@ import Address from './routes/address/address';
 import ConfirmCart from './routes/confirm-cart/confirm-cart';
 import Contact from './routes/contact/contact';
 import PastWinners from './routes/past-winners/past-winners';
+import PurchaseSuccess from './routes/purchase-success/purchase-success';
 
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
           <Route path={'/confirm-cart'} element={<ConfirmCart/>} />
           <Route path={'/contact'} element={<Contact/>} />
           <Route path={'/past-winners'} element={<PastWinners/>} />
+          <Route path={'/purchase-success'} element={<PurchaseSuccess/>} />
         </Route>
       </Routes>
       <div className='footer'>

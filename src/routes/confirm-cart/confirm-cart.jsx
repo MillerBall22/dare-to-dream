@@ -12,7 +12,6 @@ export default function ConfirmCart() {
   const navigate = useNavigate();
 
   const handleApproval = () => {
-    console.log("Hello")
     navigate('/address')
   }
 

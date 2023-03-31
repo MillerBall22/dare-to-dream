@@ -8,7 +8,7 @@ import { loginUser } from '../../services/magic';
 
 import { setCurrentUser } from '../../store/user/user.action';
 import { useDispatch } from 'react-redux';
-import { getUser } from '../../utils/airtable/users';
+import { getUser, createUser } from '../../utils/airtable/users';
 
 const defaultFormFields = {
     email: '',
@@ -39,7 +39,7 @@ const LoginDropdown = () => {
             setLoading(false);
             const user = await getUser(email);
             if (!user) {
-                await createdUser(email)
+                await createUser(email)
                 const createdUser = await getUser(email)
                 await signInUser(createdUser);
                 return

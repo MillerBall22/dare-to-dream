@@ -1,0 +1,15 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 2rem;
+    background-color: var(--white-color);
+    color: var(--primary-blue);
+}
+
+.message {
+    margin-top: 30px;
+    width: 100%;
+    text-align: center;
+}
