@@ -4,11 +4,11 @@ import NavigationBar from './components/navigation-bar/navigation-bar.component'
 import Home from './routes/home/home';
 import About from './routes/about/about';
 import AccountDetails from './routes/account-details/account-details';
-import Address from './routes/address/address';
 import ConfirmCart from './routes/confirm-cart/confirm-cart';
 import Contact from './routes/contact/contact';
 import PastWinners from './routes/past-winners/past-winners';
 import PurchaseSuccess from './routes/purchase-success/purchase-success';
+import Billing from './routes/billing/billing';
 
 
 function App() {
@@ -20,7 +20,7 @@ function App() {
           <Route index element={<Home/>} />
           <Route path={'/about'} element={<About/>} />
           <Route path={'/account-details'} element={<AccountDetails/>} />
-          <Route path={'/address'} element={<Address/>} />
+          <Route path={'/billing'} element={<Billing/>} />
           <Route path={'/confirm-cart'} element={<ConfirmCart/>} />
           <Route path={'/contact'} element={<Contact/>} />
           <Route path={'/past-winners'} element={<PastWinners/>} />

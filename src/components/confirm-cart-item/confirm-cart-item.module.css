@@ -71,45 +71,52 @@
         text-align: center;
         width: 100%;
         margin-bottom: 30px;
+        padding-top: 10px;
+        padding-bottom: 10px;
     }
     .item {
         width: 25%;
         display: flex;
         flex-direction: column;
+        font-size: 12px;
     }
     .quantity {
         width: 25%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+        font-size: 12px;
     }
     .quantityIcons {
-        margin: 0 10px;
-        font-size: 25px;
+        margin: 0 5px;
+        font-size: 15px;
     }
     .price {
         width: 25%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+        font-size: 12px;
     }
     .total {
         width: 25%;
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
+        font-size: 12px;
     }
     .removeButton {
         background-color: var(--third-blue);
         color: var(--white-color);
         margin-top: 5px;
-        padding: 10px;
+        padding: 5px;
         border: none;
         border-radius: 5px;
         cursor: pointer;
         text-align: center;
-        width: 150px;
+        min-width: 50px;
         font-weight: bold;
+        font-size: 12px;
     }
     .removeButton:hover {
         background-color: var(--white-color);

@@ -12,7 +12,7 @@ export default function ConfirmCart() {
   const navigate = useNavigate();
 
   const handleApproval = () => {
-    navigate('/address')
+    navigate('/billing')
   }
 
   const {cart} = useSelector(selectCart);
@@ -63,8 +63,7 @@ export default function ConfirmCart() {
       )}
 
       <div className={styles.buttonContainer}>
-        <Button title='Reset Back To Home' onClick={() => {}}/>
-        <Button title='Continue to Billing Address' onClick={handleApproval}/>
+        <Button title='Continue to Billing Information' onClick={handleApproval}/>
       </div>
     </div>
   )

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../components/button/button.component';
 import FormInput from '../../components/form-input/form-input.component';
-import styles from './address.module.css';
+import styles from './billing.module.css';
 import { selectCurrentUser } from '../../store/user/user.selector';
 import { useEffect } from 'react';
 import { getUserById, updateUser, createUser,getUser } from '../../utils/airtable/users';
@@ -12,6 +12,8 @@ import { selectCart } from '../../store/cart/cart.selector';
 import { createPurchase } from '../../utils/airtable/purchases';
 import LoadingMessage from '../../components/loading-message/loading-message.component';
 import { useNavigate } from 'react-router-dom';
+import {removeFromCart } from '../../store/cart/cart.action';
+
 
 const defaultFormFields = {
   firstName: '',
@@ -24,7 +26,7 @@ const defaultFormFields = {
   postalCode: '',
 }
 
-export default function Address() {
+export default function Billing() {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const [amount, setAmount] = useState(0);
   const [ticketTotal, setTicketTotal] = useState(0);
@@ -116,6 +118,13 @@ export default function Address() {
     await dispatch(setCurrentUser(newUser));
   }
 
+  async function clearCart () {
+      dispatch(removeFromCart("singleTicket"));
+      dispatch(removeFromCart("threeTickets"));
+      dispatch(removeFromCart("tenTickets"));
+      dispatch(removeFromCart("fiftyFiftyTickets"));
+  }
+
   const paymentHandler = async (e) => {
     e.preventDefault();
     if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode=== "") {
@@ -154,6 +163,9 @@ export default function Address() {
       alert(paymentResult.error.message);
       setConfirmation("Payment Unsuccessful");
     } else {
+      if (currentUser) {
+        saveDetails();
+      }
       if (paymentResult.paymentIntent.status === 'succeeded') {
         const purchaseInfo = {
           lastName,
@@ -172,6 +184,7 @@ export default function Address() {
           totalPrice: amount
         }
         createPurchase(purchaseInfo)
+        clearCart()
         navigate('/purchase-success')
       }
     }
@@ -240,6 +253,7 @@ export default function Address() {
           totalPrice: amount
         }
         createPurchase(purchaseInfo)
+        clearCart()
         navigate('/purchase-success')
       }
     }
@@ -268,7 +282,7 @@ export default function Address() {
       </div>
       <div className={styles.inputContainer}>
         <FormInput
-          label='Primary Phone Number:'
+          label='Primary Phone:'
           type='tel'
           onChange={handleChange}
           name='primaryPhone'
@@ -276,7 +290,7 @@ export default function Address() {
           placeholder='(306) 999-9999'
         />
         <FormInput
-          label='Secondary Phone Number:'
+          label='Secondary Phone:'
           type='tel'
           onChange={handleChange}
           name='secondaryPhone'
@@ -328,9 +342,9 @@ export default function Address() {
         <div className={styles.buttonContainer}>
           <Button title='Reset' onClick={resetFormFields} />
           {!currentUser && 
-            <Button title='Create Account & Confirm Purchase' onClick={createAndPayHandler} />
+            <Button title='Create Account & Purchase' onClick={createAndPayHandler} />
           }
-          <Button title='Confirm Purchase' onClick={paymentHandler}/>
+          <Button title='Purchase' onClick={paymentHandler}/>
         </div>
       }
       <h2>{confirmation}</h2>

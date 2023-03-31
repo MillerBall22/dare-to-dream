@@ -10,19 +10,27 @@ import AltButton from '../../components/alt-button/alt-button.component';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../store/cart/cart.selector';
 import Poster from '../../components/poster/poster';
+import LoadingMessage from '../../components/loading-message/loading-message.component';
+
 
 export default function Home() {
   const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
-        enableHighAccuracy: false,
+        enableHighAccuracy: true,
       },
     });
 
   const [tickets, setTickets] = useState('unavailable');
+  const [loading, setLoading] = useState(false);
   const [inSaskatchewan, setInSaskatchewan] = useState('unavailable');
   const [showPoster, setShowPoster] = useState(true)
   const { cart } = useSelector(selectCart);
+  const locate = useGeolocated({
+      positionOptions: {
+        enableHighAccuracy: true,
+      },
+    });
 
   useEffect(() => {
     if (cart[0].ticketQuantity !== 0 || cart[1].ticketQuantity !== 0 || cart[2].ticketQuantity !== 0) {
@@ -33,7 +41,9 @@ export default function Home() {
   }, [cart[0].ticketQuantity, cart[1].ticketQuantity, cart[2].ticketQuantity])
 
   const getLocation = async () => {
-    const location = await httpGetLocation(coords.latitude, coords.longitude);
+    const { coords, isGeolocationAvailable, isGeolocationEnabled } = locate
+    setTimeout(5000)
+    let location = await httpGetLocation(coords.latitude, coords.longitude);
     console.log(location)
     setInSaskatchewan(location.address.state)
   }
@@ -68,6 +78,7 @@ export default function Home() {
                 <div className={styles.locationContainer}>
                   <h2 className={styles.locationHeader}>Press the button to get location data and continue to purchasing.</h2>
                   <Button title='Get Location' onClick={getLocation}/>
+                  {loading === true && <LoadingMessage/>}
                   </div>
                   <div>
                   <h3 className={styles.locationHeader}>Must be in Saskatchewan to be eligible to purchase tickets.</h3>
@@ -80,6 +91,7 @@ export default function Home() {
             ) : (
         <div className={styles.locationContainer}>
             <h2 className={styles.locationHeader}>Getting the location data&hellip; </h2>
+            
         </div>
       )
       }
