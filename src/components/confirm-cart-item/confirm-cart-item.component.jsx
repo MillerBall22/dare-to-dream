@@ -26,7 +26,7 @@ const ConfirmCartItem = ({cartItem}) => {
                 <div className={styles.container} >
                     <div className={styles.item}>
                         <div>
-                            <img src={ticketImageUrl} width={100} height={100} alt='Mossbank Logo' />
+                            <img src={ticketImageUrl} className={styles.ticketImage} alt='Mossbank Logo' />
                         </div>
                         <div>{ticketTitle}</div>
                     </div>

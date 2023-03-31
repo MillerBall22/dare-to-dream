@@ -28,8 +28,9 @@ function App() {
         </Route>
       </Routes>
       <div className='footer'>
-        <h3>Town of Mossbank</h3>
-        <p>311 Main St, P.O. Box 370 Mossbank, SK S0H 3G0</p>
+        <h3>Mossbank and District Recreation Board</h3>
+        <p>Dare To Dream Lotto</p>
+        <p>P.O. Box 391 Mossbank, SK S0H 3G0</p>
         <p>Phone: 1-866-359-2WIN (2946)</p>
         <p>Email: mossbankdaretodreamlotto@gmail.com</p>
       </div>

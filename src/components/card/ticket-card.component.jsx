@@ -15,7 +15,7 @@ const TicketCard = ({ticketId, ticketTitle, price, imageUrl ,imageAlt, stateOfBu
             <h2 className={styles.title}>{ticketTitle}</h2>
             <h3 className={styles.price}>${price}</h3>
             <div className={styles.imageContainer}>
-                <img src={imageUrl} width={200} height={200} alt={imageAlt}/>
+                <img src={imageUrl} alt={imageAlt} className={styles.ticketImage}/>
             </div>
             <ToggleButton buttonState={stateOfButton} onClick={addToCartButton}/>
         </div>);
