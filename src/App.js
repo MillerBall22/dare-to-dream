@@ -9,6 +9,7 @@ import Contact from './routes/contact/contact';
 import PastWinners from './routes/past-winners/past-winners';
 import PurchaseSuccess from './routes/purchase-success/purchase-success';
 import Billing from './routes/billing/billing';
+import Test from './routes/test/test';
 
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
           <Route path={'/contact'} element={<Contact/>} />
           <Route path={'/past-winners'} element={<PastWinners/>} />
           <Route path={'/purchase-success'} element={<PurchaseSuccess/>} />
+          <Route path={'/test'} element={<Test/>} />
         </Route>
       </Routes>
       <div className='footer'>

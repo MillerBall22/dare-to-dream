@@ -13,3 +13,8 @@
     width: 100%;
     text-align: center;
 }
+
+.email {
+    text-decoration: underline;
+    color: var(--pink-color);
+}

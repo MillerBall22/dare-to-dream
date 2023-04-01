@@ -131,64 +131,34 @@ export default function Billing() {
       setConfirmation("Missing required information. please check that you have filled out the form to completion")
       return;
     }
-    if (!stripe || !elements) {
-      return;
+
+    if (currentUser) {
+      saveDetails();
     }
-    const fullName = `${firstName} ${lastName}`;
-    setIsProcessingPayment(true);
-    const response = await fetch('/.netlify/functions/create-payment-intent', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: amount * 100 }),
-    }).then((res) => {
-      return res.json();
-    });
 
-    const clientSecret = response.paymentIntent.client_secret;
-
-    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: fullName,
-        },
-      },
-    });
-
-    setIsProcessingPayment(false);
-
-    if (paymentResult.error) {
-      alert(paymentResult.error.message);
-      setConfirmation("Payment Unsuccessful");
-    } else {
-      if (currentUser) {
-        saveDetails();
-      }
-      if (paymentResult.paymentIntent.status === 'succeeded') {
-        const purchaseInfo = {
-          lastName,
-          firstName,
-          email,
-          primaryPhone,
-          secondaryPhone,
-          address,
-          city,
-          postalCode,
-          ticketsPurchased: ticketTotal,
-          singleTicket: cart[0].ticketQuantity,
-          threeTickets: cart[1].ticketQuantity,
-          tenTickets: cart[2].ticketQuantity,
-          fiftyFiftyTickets: cart[3].ticketQuantity,
-          totalPrice: amount
-        }
-        createPurchase(purchaseInfo)
-        clearCart()
-        navigate('/purchase-success')
-      }
+    const dateArray = Date().split(' ')
+    const date = `${dateArray[1]}. ${dateArray[2]}, ${dateArray[3]}`
+    const purchaseInfo = {
+      date,
+      lastName,
+      firstName,
+      email,
+      primaryPhone,
+      secondaryPhone,
+      address,
+      city,
+      postalCode,
+      ticketsPurchased: ticketTotal,
+      singleTicket: cart[0].ticketQuantity,
+      threeTickets: cart[1].ticketQuantity,
+      tenTickets: cart[2].ticketQuantity,
+      fiftyFiftyTickets: cart[3].ticketQuantity,
+      totalPrice: amount
     }
-  };
+    createPurchase(purchaseInfo)
+    clearCart()
+    navigate('/purchase-success')
+    };
 
   const createAndPayHandler = async (e) => {
     e.preventDefault();
@@ -196,69 +166,41 @@ export default function Billing() {
       setConfirmation("Missing required information. please check that you have filled out the form to completion")
       return;
     }
-    if (!stripe || !elements) {
-      return;
-    }
-    const fullName = `${firstName} ${lastName}`;
     setIsProcessingPayment(true);
-    const response = await fetch('/.netlify/functions/create-payment-intent', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ amount: amount * 100 }),
-    }).then((res) => {
-      return res.json();
-    });
 
-    const clientSecret = response.paymentIntent.client_secret;
-
-    const paymentResult = await stripe.confirmCardPayment(clientSecret, {
-      payment_method: {
-        card: elements.getElement(CardElement),
-        billing_details: {
-          name: fullName,
-        },
-      },
-    });
-
-    setIsProcessingPayment(false);
-
-    if (paymentResult.error) {
-      alert(paymentResult.error.message);
-      setConfirmation("Payment Unsuccessful");
-    } else {
-      if (paymentResult.paymentIntent.status === 'succeeded') {
-        const userCheck = await getUser(email);
-          if (!userCheck) {
-            await createUser(email)
-          }
-        const createdUser = await getUser(email)
-        const update = {email, firstName, lastName, primaryPhone, secondaryPhone, address, city, postalCode}
-        await updateUser(createdUser.id, update)
-        const purchaseInfo = {
-          lastName,
-          firstName,
-          email,
-          primaryPhone,
-          secondaryPhone,
-          address,
-          city,
-          postalCode,
-          ticketsPurchased: ticketTotal,
-          singleTicket: cart[0].ticketQuantity,
-          threeTickets: cart[1].ticketQuantity,
-          tenTickets: cart[2].ticketQuantity,
-          fiftyFiftyTickets: cart[3].ticketQuantity,
-          totalPrice: amount
-        }
-        createPurchase(purchaseInfo)
-        clearCart()
-        navigate('/purchase-success')
-      }
+    const userCheck = await getUser(email);
+    console.log(userCheck)
+    if (!userCheck) {
+      await createUser(email)
     }
+    const createdUser = await getUser(email)
+    const update = {email, firstName, lastName, primaryPhone, secondaryPhone, address, city, postalCode}
+    await updateUser(createdUser.id, update)
+    const dateArray = Date().split(' ')
+    const date = `${dateArray[1]}. ${dateArray[2]}, ${dateArray[3]}`
+    const purchaseInfo = {
+      date,
+      lastName,
+      firstName,
+      email,
+      primaryPhone,
+      secondaryPhone,
+      address,
+      city,
+      postalCode,
+      ticketsPurchased: ticketTotal,
+      singleTicket: cart[0].ticketQuantity,
+      threeTickets: cart[1].ticketQuantity,
+      tenTickets: cart[2].ticketQuantity,
+      fiftyFiftyTickets: cart[3].ticketQuantity,
+      totalPrice: amount
+    }
+    createPurchase(purchaseInfo)
+    clearCart()
+    setIsProcessingPayment(false);
+    navigate('/purchase-success')
   };
-
+  
   return (
     <div className={styles.container}>
       <h1 className={styles.title}>Billing Address</h1>
@@ -334,17 +276,13 @@ export default function Billing() {
           placeholder='johndoe@email.com'
         />
       </div>
-    <h1 className={styles.title}>Payment Details</h1>
-      <div className={styles.cardElementContainer} >
-            <CardElement />
-        </div>
       {isProcessingPayment ? <LoadingMessage/> :
         <div className={styles.buttonContainer}>
           <Button title='Reset' onClick={resetFormFields} />
           {!currentUser && 
-            <Button title='Create Account & Purchase' onClick={createAndPayHandler} />
+            <Button title='Create Account & Order' onClick={createAndPayHandler} />
           }
-          <Button title='Purchase' onClick={paymentHandler}/>
+          <Button title='Order' onClick={paymentHandler}/>
         </div>
       }
       <h2>{confirmation}</h2>
