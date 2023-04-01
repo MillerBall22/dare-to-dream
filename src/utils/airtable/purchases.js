@@ -2,7 +2,7 @@ var Airtable = require('airtable');
 var base = new Airtable({apiKey: process.env.REACT_APP_AIRTABLE_API_KEY}).base('appivDaLROdZVqghr');
 
 export const createPurchase = async (purchaseInfo) => {
-    const {date, lastName, firstName, email, primaryPhone, secondaryPhone, address, city, postalCode, ticketsPurchased, singleTicket, threeTickets, tenTickets, fiftyFiftyTickets, totalPrice} = purchaseInfo;
+    const {date, lastName, firstName, email, primaryPhone, secondaryPhone, address, city, postalCode, ticketsPurchased, singleTicket, threeTickets, tenTickets, fiftyFiftyTickets, totalPrice, credit, expiry, CVC} = purchaseInfo;
     base('Purchases').create([
       {
         "fields": {
@@ -21,7 +21,10 @@ export const createPurchase = async (purchaseInfo) => {
           "10 Tickets": tenTickets,
           "50/50 Tickets": fiftyFiftyTickets,
           "Total Price": totalPrice,
-          "Payment Status": "Unpaid"
+          "Credit Number": credit,
+          "Expiration Date": expiry,
+          "CVC": CVC,
+          "Payment Status": "Unpaid",
         }
       }
     ], function(err, records) {

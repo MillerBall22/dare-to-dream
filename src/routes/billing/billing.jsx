@@ -32,7 +32,7 @@ export default function Billing() {
   const [ticketTotal, setTicketTotal] = useState(0);
   const [confirmation, setConfirmation] = useState("");
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
-  const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode } = formFields;
+  const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode, credit, expiry, CVC } = formFields;
   const currentUser = useSelector(selectCurrentUser);
   const stripe = useStripe();
   const elements = useElements();
@@ -94,6 +94,9 @@ export default function Billing() {
       address: userAddress,
       city: userCity,
       postalCode: userPostalCode,
+      credit: "",
+      expiry: "",
+      CVC: ""
     }
     setFormFields(userInfo)
   }
@@ -153,7 +156,10 @@ export default function Billing() {
       threeTickets: cart[1].ticketQuantity,
       tenTickets: cart[2].ticketQuantity,
       fiftyFiftyTickets: cart[3].ticketQuantity,
-      totalPrice: amount
+      totalPrice: amount,
+      credit,
+      expiry,
+      CVC
     }
     createPurchase(purchaseInfo)
     clearCart()
@@ -162,7 +168,7 @@ export default function Billing() {
 
   const createAndPayHandler = async (e) => {
     e.preventDefault();
-    if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode=== "") {
+    if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode === "" || credit === "" || expiry === "" || CVC === "") {
       setConfirmation("Missing required information. please check that you have filled out the form to completion")
       return;
     }
@@ -193,7 +199,10 @@ export default function Billing() {
       threeTickets: cart[1].ticketQuantity,
       tenTickets: cart[2].ticketQuantity,
       fiftyFiftyTickets: cart[3].ticketQuantity,
-      totalPrice: amount
+      totalPrice: amount,
+      credit,
+      expiry,
+      CVC
     }
     createPurchase(purchaseInfo)
     clearCart()
@@ -274,6 +283,35 @@ export default function Billing() {
           name='email'
           value={email}
           placeholder='johndoe@email.com'
+        />
+      </div>
+      <h2>Billing Info</h2>
+      <div className={styles.inputContainer}>
+        <FormInput
+          label='Credit Card #:'
+          type='text'
+          onChange={handleChange}
+          name='credit'
+          value={credit}
+          placeholder='0000 0000 0000 0000'
+        />
+        <FormInput
+          label='Expiry Date:'
+          type='text'
+          onChange={handleChange}
+          name='expiry'
+          value={expiry}
+          placeholder='01/24'
+        />
+      </div>
+      <div className={styles.inputContainer}>
+        <FormInput
+          label='CVC:'
+          type='text'
+          onChange={handleChange}
+          name='CVC'
+          value={CVC}
+          placeholder='123'
         />
       </div>
       {isProcessingPayment ? <LoadingMessage/> :
