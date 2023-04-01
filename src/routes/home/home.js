@@ -10,7 +10,6 @@ import AltButton from '../../components/alt-button/alt-button.component';
 import { useSelector } from 'react-redux';
 import { selectCart } from '../../store/cart/cart.selector';
 import Poster from '../../components/poster/poster';
-import LoadingMessage from '../../components/loading-message/loading-message.component';
 
 
 export default function Home() {
@@ -22,7 +21,6 @@ export default function Home() {
     });
 
   const [tickets, setTickets] = useState('unavailable');
-  const [loading, setLoading] = useState(false);
   const [inSaskatchewan, setInSaskatchewan] = useState('unavailable');
   const [showPoster, setShowPoster] = useState(true)
   const { cart } = useSelector(selectCart);
@@ -42,7 +40,6 @@ export default function Home() {
 
   const getLocation = async () => {
     const { coords, isGeolocationAvailable, isGeolocationEnabled } = locate
-    setTimeout(5000)
     let location = await httpGetLocation(coords.latitude, coords.longitude);
     console.log(location)
     setInSaskatchewan(location.address.state)
@@ -73,27 +70,22 @@ export default function Home() {
           <TicketCard className='ticket-card' ticketId='tenTickets' ticketTitle='10 Tickets' price={400} imageUrl='/static/10 Tickets.svg' imageAlt='10 Tickets' stateOfButton={regularTicketsState}/>
           <TicketCard className='ticket-card' ticketId='fiftyFiftyTickets' ticketTitle='50/50 Tickets' price={20} imageUrl='/static/3 Tickets.svg' imageAlt='50/50 Tickets' stateOfButton={tickets}/>
         </div>
-            ) : isGeolocationEnabled ? ( 
+            ) : inSaskatchewan !== "Saskatchewan" & inSaskatchewan !== "unavailable" ? (
+              <div className={styles.locationContainer}>
+                <h2 className={styles.locationHeader}>Sorry you are not eligible to buy tickets.</h2>
+                <h3 className={styles.locationHeader}>If you think this is a mistake please check your computer's location services' settings</h3>
+              </div>
+            ): isGeolocationEnabled && ( 
               <div>
                 <div className={styles.locationContainer}>
                   <h2 className={styles.locationHeader}>Press the button to get location data and continue to purchasing.</h2>
                   <Button title='Get Location' onClick={getLocation}/>
-                  {loading === true && <LoadingMessage/>}
                   </div>
                   <div>
                   <h3 className={styles.locationHeader}>Must be in Saskatchewan to be eligible to purchase tickets.</h3>
                 </div>
               </div>
-            ) : inSaskatchewan !== "Saskatchewan" ? (
-              <div className={styles.locationContainer}>
-                <h2 className={styles.locationHeader}>Sorry you are not eligible to buy tickets.</h2>
-              </div>
-            ) : (
-        <div className={styles.locationContainer}>
-            <h2 className={styles.locationHeader}>Getting the location data&hellip; </h2>
-            
-        </div>
-      )
+            )
       }
     </div>
   )
