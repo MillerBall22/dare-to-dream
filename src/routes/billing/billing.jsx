@@ -106,8 +106,85 @@ export default function Billing() {
   }
 
   const handleChange = (event) => {
-    const { name, value } = event.target;
+    const { name, value, } = event.target;
+    if (name === "expiry" && value.length > 5) {
+      return
+    }
+    if (name === "credit" && value.length > 19) {
+      return
+    }
+    if (name === "CVC" && value.length > 3) {
+      return
+    }
+
+    if (name === "primaryPhone" && value.length > 14) {
+      return
+    }
+
+    if (name === "postalCode" && value.length > 7) {
+      return
+    }
+
+    if (name === "primaryPhone" && value.length === 1 && primaryPhone.length <= value.length) {
+      const newValue = `(${value}` 
+      setFormFields({ ...formFields, [name]: newValue });
+      return
+    }
+
+    if (name === "secondaryPhone" && value.length > 14) {
+      return
+    }
+
+    if (name === "secondaryPhone" && value.length === 1 && secondaryPhone.length <= value.length) {
+      const newValue = `(${value}` 
+      setFormFields({ ...formFields, [name]: newValue });
+      return
+    }
+
     setFormFields({ ...formFields, [name]: value });
+
+    if (name === "credit" && credit.length >= value.length) {
+      return;
+    }
+    if (name === "credit" && value.length % 5 === 4 && value.length !== 19) {
+      setFormFields({...formFields, [name]: value + " "})
+    }
+
+    if (name === "expiry" && expiry.length >= value.length) {
+      return;
+    }
+    if (name === "expiry" && expiry.length === 1) {
+      setFormFields({...formFields, [name]: value + "/"})
+    }
+
+    if (name === "primaryphone" && primaryPhone.length >= value.length) {
+      return;
+    }
+    if (name === "primaryPhone" && value.length === 4) {
+      setFormFields({...formFields, [name]: value + ") "})
+    }
+
+    if (name === "primaryPhone" && value.length === 9) {
+      setFormFields({...formFields, [name]: value + "-"})
+    }
+
+    if (name === "secondaryPhone" && secondaryPhone.length >= value.length) {
+      return;
+    }
+    if (name === "secondaryPhone" && value.length === 4) {
+      setFormFields({...formFields, [name]: value + ") "})
+    }
+
+    if (name === "secondaryPhone" && value.length === 9) {
+      setFormFields({...formFields, [name]: value + "-"})
+    }
+
+    if (name === "postalCode" && postalCode.length >= value.length) {
+      return;
+    }
+    if (name === "postalCode" && value.length === 3) {
+      setFormFields({...formFields, [name]: value + " "})
+    }
   };
 
   const saveDetails = async () => {
@@ -133,6 +210,32 @@ export default function Billing() {
     if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode=== "") {
       setConfirmation("Missing required information. please check that you have filled out the form to completion")
       return;
+    }
+
+        if (primaryPhone.length !== 14) {
+      setConfirmation("Invalid primary phone number!")
+      return
+    }
+
+    if (postalCode.length !==7) {
+      setConfirmation("Invalid Postal Code!")
+      return
+    }
+
+    if (credit.length !== 19) {
+      setConfirmation("Invalid credit card number!")
+      return
+    }
+
+    if (expiry.length !== 5) {
+      setConfirmation("Invalid expiry date!")
+      return
+    }
+
+    console.log(expiry.length)
+    if (CVC.length !== 3) {
+      setConfirmation("Invalid CVC number!")
+      return
     }
 
     if (currentUser) {
@@ -171,6 +274,31 @@ export default function Billing() {
     if (firstName === "" || lastName === "" || email === "" || primaryPhone === "" || address === "" || city === "" || postalCode === "" || credit === "" || expiry === "" || CVC === "") {
       setConfirmation("Missing required information. please check that you have filled out the form to completion")
       return;
+    }
+
+    if (primaryPhone.length !== 14) {
+      setConfirmation("Invalid primary phone number!")
+      return
+    }
+
+    if (postalCode.length !==7) {
+      setConfirmation("Invalid Postal Code!")
+      return
+    }
+
+    if (credit.length !== 19) {
+      setConfirmation("Invalid credit card number!")
+      return
+    }
+
+    if (expiry.length !== 5) {
+      setConfirmation("Invalid expiry date!")
+      return
+    }
+
+    if (expiry.length !== 3) {
+      setConfirmation("Invalid CVC number!")
+      return
     }
     setIsProcessingPayment(true);
 
