@@ -7,7 +7,6 @@ import { selectCurrentUser } from '../../store/user/user.selector';
 import { useEffect } from 'react';
 import { getUserById, updateUser, createUser,getUser } from '../../utils/airtable/users';
 import { setCurrentUser } from '../../store/user/user.action';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { selectCart } from '../../store/cart/cart.selector';
 import { createPurchase } from '../../utils/airtable/purchases';
 import LoadingMessage from '../../components/loading-message/loading-message.component';
@@ -34,8 +33,6 @@ export default function Billing() {
   const [isProcessingPayment, setIsProcessingPayment] = useState(false);
   const { firstName, lastName, email, primaryPhone, secondaryPhone, address, city, postalCode, credit, expiry, CVC } = formFields;
   const currentUser = useSelector(selectCurrentUser);
-  const stripe = useStripe();
-  const elements = useElements();
   const dispatch = useDispatch(); 
   const navigate = useNavigate(); 
 
@@ -107,6 +104,7 @@ export default function Billing() {
 
   const handleChange = (event) => {
     const { name, value, } = event.target;
+    const entry = value.slice(-1)
     if (name === "expiry" && value.length > 5) {
       return
     }
@@ -117,11 +115,11 @@ export default function Billing() {
       return
     }
 
-    if (name === "primaryPhone" && value.length > 14) {
+    if (name === "postalCode" && value.length > 7) {
       return
     }
 
-    if (name === "postalCode" && value.length > 7) {
+    if (name === "primaryPhone" && value.length > 14) {
       return
     }
 
@@ -296,7 +294,7 @@ export default function Billing() {
       return
     }
 
-    if (expiry.length !== 3) {
+    if (CVC.length !== 3) {
       setConfirmation("Invalid CVC number!")
       return
     }
