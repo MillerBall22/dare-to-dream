@@ -10,7 +10,7 @@ function MobileNavDropdown() {
           Home
         </Link>
       </div>
-      <div>
+      {/*<div>
         <Link className={styles.navigationLink} to="/past-winners">
           Past Winners
         </Link>
@@ -19,7 +19,7 @@ function MobileNavDropdown() {
         <Link className={styles.navigationLink} to="/contact">
           Contact
         </Link>
-      </div>
+      </div>*/}
       <div>
         <Link className={styles.navigationLink} to="/about">
           About
