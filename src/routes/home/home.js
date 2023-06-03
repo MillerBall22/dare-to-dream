@@ -13,12 +13,12 @@ import Poster from '../../components/poster/poster';
 
 
 export default function Home() {
-  const { coords, isGeolocationAvailable, isGeolocationEnabled } =
+  /*const { coords, isGeolocationAvailable, isGeolocationEnabled } =
     useGeolocated({
       positionOptions: {
         enableHighAccuracy: true,
       },
-    });
+    });*/
 
   const [tickets, setTickets] = useState('unavailable');
   const [inSaskatchewan, setInSaskatchewan] = useState('unavailable');
@@ -52,7 +52,11 @@ export default function Home() {
   return (
     <div>
     {showPoster ? <div><AltButton title="Close Poster" onClick={flipPoster}/><Poster/><AltButton title="Close Poster" onClick={flipPoster}/></div> : <AltButton title="Open Poster" onClick={flipPoster}/>}
-      <div className={styles.banner}>
+    <div className={styles.closedTickets}>
+      
+    <h2>Tickets purchases are closed.</h2>
+      </div>
+     {/* <div className={styles.banner}>
         <Slideshow/>
       </div>
       {!isGeolocationEnabled ? (
@@ -86,7 +90,7 @@ export default function Home() {
                 </div>
               </div>
             )
-      }
+      }*/}
     </div>
   )
 }

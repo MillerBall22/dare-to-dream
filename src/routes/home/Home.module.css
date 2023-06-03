@@ -26,3 +26,9 @@
 .ticket-card {
     min-width: 25%;
 }
+
+.closedTickets {
+    margin-top: 20px;
+    text-align: center;
+    color: var(--primary-blue);
+}
