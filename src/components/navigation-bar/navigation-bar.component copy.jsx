@@ -77,12 +77,65 @@ function NavigationBar() {
             1-866-359-2WIN (2946) | mossbankdaretodreamlotto@gmail.com
           </div>
         </div>
+        <div className={styles.navigationBottom}>
+          <div>
+            <Link className={styles.navigationLink} to="/">
+              Home
+            </Link>
+          </div>
+          {/*<div>
+            <Link className={styles.navigationLink} to="/past-winners">
+              Past Winners
+            </Link>
+          </div>
+          <div>
+            <Link className={styles.navigationLink} to="/contact">
+              Contact
+            </Link>
+          </div>
+          <div>
+            <Link className={styles.navigationLink} to="/about">
+              About
+            </Link>
+          </div>
+          */}
+          <div onClick={toggleCart}>
+            <Link className={styles.navigationLink}>
+              <HiShoppingCart className={styles.linkIcons}/>&nbsp;{ticketTotal} Items
+            </Link>
+          </div>
+          <div onClick={toggleLogin}>
+            <Link className={styles.navigationLink}>
+              <RiAccountCircleFill className={styles.linkIcons}/> &nbsp;{currentUser === null ? 'Sign In' : 'Account Options'}
+            </Link>
+          </div>
+          {cartDropdown && <CartDropdown />}
+          {loginDropdown && dropdownComponent}
+        </div>
       </div>
 
       <div className={styles.mobileContainer}>
         <div className={styles.mobileNavigation}>
-            <Link className={styles.navigationLink}> &nbsp; Dare To Dream
+          <div className={styles.mobileLinks} onClick= {ToggleMobileNav}>
+            <Link className={styles.navigationLink}>
+            <GiHamburgerMenu className={styles.navBars} /> &nbsp; Dare To Dream
             </Link>
+          </div>
+          <div className={styles.mobileIcons}>
+            <div onClick={toggleCart}>
+              <Link className={styles.mobileNavigationLink}>
+                <HiShoppingCart className={styles.linkIcons} />
+              </Link>
+            </div>
+            <div onClick={toggleLogin}>
+              <Link className={styles.mobileNavigationLink}>
+                <RiAccountCircleFill className={styles.linkIcons} />
+              </Link>
+            </div>
+          </div>
+            {cartDropdown && <CartDropdown />}
+            {loginDropdown && dropdownComponent}
+            {mobileDropdown && <MobileNavDropdown/>}
         </div>
       </div>
     </>

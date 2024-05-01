@@ -32,3 +32,14 @@
     text-align: center;
     color: var(--primary-blue);
 }
+
+.buttonLink {
+    max-width: 60%;
+    margin-bottom: 20px;
+}
+
+.buttonLinkContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
