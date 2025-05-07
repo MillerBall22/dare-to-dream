@@ -50,7 +50,7 @@ export default function Home() {
   const navigate = useNavigate()
 
  const RedirectPage = () => {
-    window.location.replace('https://sk.tap5050.com/apex/f?p=127:1::::APP:P0_EVENT_ID:29906')
+   window.location.replace('https://sk.tap5050.com/apex/f?p=127:1::::APP:P0_EVENT_ID:33503')
 }
 
   const flipPoster = () => {
